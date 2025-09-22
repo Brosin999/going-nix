@@ -22,6 +22,10 @@ check:
 	nix flake check
 
 [group('nix')]
+dry-build:
+	nixos-rebuild dry-build --flake .
+
+[group('nix')]
 build HOST:
 	nix build .#nixosConfigurations.{{HOST}}.config.system.build.toplevel
 
