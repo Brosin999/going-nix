@@ -1,23 +1,14 @@
-{ config, pkgs, ... }:
-
+{ ... }:
 {
-  home = {
-    username = "luffy";
-    homeDirectory = "/home/luffy";
-    stateVersion = "25.11";
-  };
+  # home manager info	
+  home.username = "luffy";
+  home.homeDirectory = "/home/luffy";
+  home.stateVersion = "25.11";
 
-  programs = {
-    home-manager.enable = true;
-    
-    # Add your user-specific programs here
-    # bash.enable = true;
-    # git = {
-    #   enable = true;
-    #   userName = "luffy";
-    #   userEmail = "luffy@example.com";
-    # };
-  };
+  programs.home-manager.enable = true;
 
-  # Add your dotfiles and user-specific configuration here
+  imports = [
+    ./common
+    ./gui
+  ];
 }

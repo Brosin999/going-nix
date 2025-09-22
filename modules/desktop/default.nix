@@ -1,7 +1,7 @@
-{ self, ... }:
+{ inputs, ... }:
 {
 	imports = [
-		"${self}/modules/base"
+		"${inputs.self}/modules/base"
 		./peripherals.nix
 		./desktop.nix
 	];
