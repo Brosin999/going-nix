@@ -39,6 +39,9 @@ in
 	# disk mgmnt
 	duf # Disk Usage / Free Utility. (df)
 	du-dust # Disk Usage (du)
+  
+  # Files
+  yazi # terminal file manager
 
 	# nix
 	nix-output-monitor # `nom` - nix with better logs

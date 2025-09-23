@@ -1,0 +1,15 @@
+// Samsung U32J59x - 4K 60Hz monitor (left side)
+// 3840x2160 @ 59.997Hz, no scaling
+output "DP-5" {
+    scale 1.0
+    transform "normal"
+    position x=0 y=0
+}
+
+// Samsung Odyssey G40B - 1080p 240Hz gaming monitor (right side)
+// 1920x1080 @ 239.760Hz
+output "DP-4" {
+    scale 1.0
+    transform "normal"
+    position x=3840 y=0
+}

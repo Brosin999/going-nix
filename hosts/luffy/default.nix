@@ -12,12 +12,13 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     users.luffy = import ../../users/luffy;
-    sharedModules = [ 
+    sharedModules = [
       inputs.catppuccin.homeModules.catppuccin
       ./hardware-hyprland.nix
     ];
     extraSpecialArgs = {
       pkgs-unstable = pkgs-unstable;
+      inherit inputs;
     };
   };
 
