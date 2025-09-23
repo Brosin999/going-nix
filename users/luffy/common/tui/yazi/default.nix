@@ -48,6 +48,8 @@ in
         { on = [ "<C-f>" ]; run = "search rg"; desc = "Search file contents"; }
         # Press 'e' to edit file with nvim
         { on = [ "e" ]; run = "shell 'nvim \"$1\"' --block --confirm"; desc = "Edit with Neovim"; }
+        # Press 'Shift+Y' to copy file to clipboard
+        { on = [ "Y" ]; run = "shell 'wl-copy < \"$1\"' --confirm"; desc = "Copy file to clipboard"; }
       ];
     };
   };
