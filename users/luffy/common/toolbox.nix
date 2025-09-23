@@ -35,6 +35,9 @@ in
 	# networking
 	gping # ping with tui graph
 	doggo # dns client
+
+	# visualization
+	graphviz # dot graph visualization
 	
 	# disk mgmnt
 	duf # Disk Usage / Free Utility. (df)
