@@ -1,15 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
-
-let
-  # Check if host-specific monitor config exists
-  hostName = config.networking.hostName or "unknown";
-  hostMonitorConfig = "${inputs.self}/hosts/${hostName}/niri-monitors.kdl";
-  hasHostMonitorConfig = builtins.pathExists hostMonitorConfig;
-
-  configContent =
-    builtins.readFile ./config.kdl +
-    (if hasHostMonitorConfig then "\n" + builtins.readFile hostMonitorConfig else "");
-in
+{ pkgs, ... }:
 {
   imports = [
     ../wayland.nix
@@ -17,7 +6,7 @@ in
   ];
 
   # Use system-provided niri instead of home-manager module
-  xdg.configFile."niri/config.kdl".text = configContent;
+  xdg.configFile."niri/config.kdl".source = ./config.kdl;
 
   home.file.".wayland-session" = {
     source = pkgs.writeScript "init-session" ''

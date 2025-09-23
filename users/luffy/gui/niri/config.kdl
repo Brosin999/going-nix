@@ -7,12 +7,10 @@ input {
 
     touchpad {
         tap
-        natural-scroll
         dwt
     }
 
     mouse {
-        natural-scroll
     }
 }
 
