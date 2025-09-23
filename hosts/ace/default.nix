@@ -15,6 +15,7 @@
     sharedModules = [ inputs.catppuccin.homeModules.catppuccin ];
     extraSpecialArgs = {
       pkgs-unstable = pkgs-unstable;
+      inherit inputs;
     };
   };
 

@@ -1,4 +1,4 @@
 { ... }:
 {
-  imports = [./editors.nix ./hyprland];
+  imports = [./browser.nix ./editors.nix ./hyprland ./niri];
 }

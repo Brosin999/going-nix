@@ -9,9 +9,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     catppuccin.url = "github:catppuccin/nix";
+    niri.url = "github:sodiboo/niri-flake";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, catppuccin, ... }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, catppuccin, niri, ... }: {
     nixosConfigurations = {
       luffy = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
