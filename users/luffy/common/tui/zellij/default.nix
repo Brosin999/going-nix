@@ -1,7 +1,8 @@
 { pkgs, ... }:
-let 
+let
   shellAliases = {
     "zj" = "zellij";
+    "zj-gonix" = "zellij --layout go-nix";
   };
 in
 {
@@ -11,6 +12,7 @@ in
   };
 
   xdg.configFile."zellij/config.kdl".source = ./config.kdl;
+  xdg.configFile."zellij/layouts/go-nix.kdl".source = ./go-nix.kdl;
 
   home.shellAliases = shellAliases;
 }
