@@ -20,7 +20,8 @@ in
 
       opener = {
         edit = [
-          { run = "nvim \"$@\""; block = true; for = "unix"; desc = "Edit with Neovim"; }
+          # { run = "nvim \"$@\""; block = true; for = "unix"; desc = "Edit with Neovim"; }
+          { run = "hx \"$@\""; block = true; for = "unix"; desc = "Edit with Helix"; }
         ];
         open = [
           { run = "xdg-open \"$@\""; desc = "Open with default app"; for = "unix"; }
@@ -46,8 +47,8 @@ in
         { on = [ "<C-s>" ]; run = "search fd"; desc = "Search files by name"; }
         # Press 'Ctrl+f' to search inside file contents
         { on = [ "<C-f>" ]; run = "search rg"; desc = "Search file contents"; }
-        # Press 'e' to edit file with nvim
-        { on = [ "e" ]; run = "shell 'nvim \"$1\"' --block --confirm"; desc = "Edit with Neovim"; }
+        # Press 'e' to edit file with helix
+        { on = [ "e" ]; run = "shell 'hx \"$1\"' --block --confirm"; desc = "Edit with Helix"; }
         # Press 'Shift+Y' to copy file to clipboard
         { on = [ "Y" ]; run = "shell 'wl-copy < \"$1\"' --confirm"; desc = "Copy file to clipboard"; }
       ];
