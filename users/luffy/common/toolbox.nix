@@ -38,6 +38,7 @@ in
 
 	# visualization
 	graphviz # dot graph visualization
+	pastel # command-line tool to work with colors
 	
 	# disk mgmnt
 	duf # Disk Usage / Free Utility. (df)
