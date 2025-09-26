@@ -29,6 +29,10 @@ dry-build:
 build HOST:
 	nix build .#nixosConfigurations.{{HOST}}.config.system.build.toplevel
 
+[group('nix')]
+hm:
+	home-manager switch --flake .#$USER
+
 
 
 

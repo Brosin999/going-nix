@@ -13,7 +13,7 @@ Small things:
 
 Big things that need small starts and some education:
 - [ ] Hardening
-- [ ] Secrets Management (post quantum)
+- [ ] Secrets Management (post quantum algos?)
 - [ ] Networking
 - [ ] Multi-host configuration, build & deployment
 
