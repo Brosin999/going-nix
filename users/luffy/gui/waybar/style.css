@@ -1,0 +1,319 @@
+/* =============================================================================
+ *
+ * Waybar configuration
+ *
+ * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ *
+ * =========================================================================== */
+
+/* -----------------------------------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------------------------------- */
+
+@keyframes blink-warning {
+    70% {
+        color: white;
+    }
+
+    to {
+        color: white;
+        background-color: orange;
+    }
+}
+
+@keyframes blink-critical {
+    70% {
+        color: white;
+    }
+
+    to {
+        color: white;
+        background-color: red;
+    }
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Base styles
+ * -------------------------------------------------------------------------- */
+
+/* Reset all styles */
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* The whole bar */
+#waybar {
+    background: rgba(30, 30, 46, 0.9);
+    color: #cdd6f4;
+    font-family: "Maple Mono NF CN", monospace;
+    font-size: 13pt;
+    font-weight: bold;
+    border: none;
+}
+
+/* Each module */
+#battery,
+#clock,
+#cpu,
+#custom-keyboard-layout,
+#custom-launcher,
+#custom-weather,
+#custom-updater,
+#custom-cycle_wall,
+#custom-keybindhint,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#pulseaudio.microphone,
+#temperature,
+#tray,
+#backlight,
+#window,
+#workspaces {
+    background: rgba(30, 30, 46, 0.9);
+    border: 1px solid rgba(137, 180, 250, 0.3);
+    padding: 2px 8px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    min-height: 18px;
+}
+
+/* Each module that should blink */
+#mode,
+#memory,
+#temperature,
+#battery {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* Each critical module */
+#memory.critical,
+#cpu.critical,
+#temperature.critical,
+#battery.critical.discharging {
+    color: white;
+    animation-name: blink-critical;
+    animation-duration: 2s;
+}
+
+/* Each warning */
+#network.disconnected,
+#memory.warning,
+#cpu.warning,
+#temperature.warning,
+#battery.warning.discharging {
+    color: orange;
+    animation-name: blink-warning;
+    animation-duration: 2s;
+}
+
+/* And now modules themselves in their respective order */
+
+/* Current window title */
+#window {
+    background: rgba(40, 42, 54, 0.8);
+    border: 1px solid rgba(68, 71, 90, 0.8);
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 6px;
+    color: rgb(217, 224, 238);
+}
+
+/* Workspaces stuff */
+#workspaces button {
+    color: #cdd6f4;
+    background: rgba(49, 50, 68, 0.8);
+    border: 1px solid rgba(137, 180, 250, 0.2);
+    border-radius: 6px;
+    padding: 2px 6px;
+    margin: 2px;
+    min-height: 14px;
+    font-size: 10pt;
+}
+
+#workspaces button.active {
+    color: #1e1e2e;
+    background: #89b4fa;
+    border: 1px solid #89b4fa;
+    border-radius: 6px;
+}
+
+#workspaces button.urgent {
+    color: rgb(26, 27, 38);
+    background: rgb(255, 85, 85);
+    border-radius: 6px;
+}
+
+#workspaces button:hover {
+    color: rgb(26, 27, 38);
+    background: rgb(255, 255, 255);
+    border-radius: 6px;
+}
+
+/* Tooltips */
+tooltip {
+    background: rgb(48, 45, 65);
+}
+
+tooltip label {
+    color: rgb(217, 224, 238);
+}
+
+/* Custom launcher */
+#custom-launcher {
+    color: rgb(137, 180, 250);
+    background: rgba(40, 42, 54, 0.8);
+    border: 1px solid rgba(68, 71, 90, 0.8);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 6px;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+#custom-launcher:hover {
+    color: rgb(24, 25, 38);
+    background: rgb(137, 180, 250);
+}
+
+#custom-cycle_wall {
+    color: rgb(181, 232, 83);
+    background: rgba(40, 42, 54, 0.8);
+    border: 1px solid rgba(68, 71, 90, 0.8);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 6px;
+    margin-left: 10px;
+}
+
+#custom-keybindhint {
+    color: rgb(181, 232, 83);
+    background: rgba(40, 42, 54, 0.8);
+    border: 1px solid rgba(68, 71, 90, 0.8);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 6px;
+    margin-left: 10px;
+}
+
+#custom-weather {
+    color: rgb(255, 255, 255);
+    background: rgba(40, 42, 54, 0.8);
+    border: 1px solid rgba(68, 71, 90, 0.8);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 6px;
+    margin-left: 10px;
+}
+
+#custom-updater {
+    color: rgb(255, 184, 108);
+    background: rgba(40, 42, 54, 0.8);
+    border: 1px solid rgba(68, 71, 90, 0.8);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 6px;
+    margin-left: 10px;
+}
+
+/* Hardware */
+#cpu {
+    color: rgb(181, 232, 83);
+    border-radius: 10px 0px 0px 10px;
+    padding-left: 8px;
+    padding-right: 6px;
+    margin-left: 10px;
+}
+
+#memory {
+    color: rgb(255, 184, 108);
+    border-radius: 0px 10px 10px 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 10px;
+}
+
+#clock {
+    color: rgb(217, 224, 238);
+    border-radius: 6px;
+    margin-left: 0px;
+    margin-right: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+/* Network */
+#network {
+    color: rgb(181, 232, 83);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+/* Battery */
+#battery {
+    color: rgb(181, 232, 83);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#battery.warning {
+    color: rgb(255, 184, 108);
+}
+
+#battery.critical {
+    color: rgb(255, 85, 85);
+}
+
+#battery.charging {
+    color: rgb(181, 232, 83);
+}
+
+/* Audio */
+#pulseaudio {
+    color: rgb(245, 224, 220);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#pulseaudio.microphone {
+    color: rgb(142, 215, 215);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+/* Others */
+#temperature {
+    color: rgb(245, 194, 231);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#temperature.critical {
+    color: rgb(255, 85, 85);
+}
+
+#tray {
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#backlight {
+    color: rgb(248, 189, 150);
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
