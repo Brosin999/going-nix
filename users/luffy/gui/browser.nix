@@ -1,12 +1,12 @@
 { pkgs, ... }:
 let
-  discord-web = pkgs.writeShellScriptBin "discord" ''
-    mkdir -p "$HOME/.local/share/discord-web"
+  makeWebApp = name: url: icon: categories: pkgs.writeShellScriptBin (pkgs.lib.toLower name) ''
+    mkdir -p "$HOME/.local/share/${pkgs.lib.toLower name}-web"
     ${pkgs.chromium}/bin/chromium \
-      --user-data-dir="$HOME/.local/share/discord-web" \
-      --class="Discord" \
-      --name="Discord" \
-      --app="https://discord.com/app" \
+      --user-data-dir="$HOME/.local/share/${pkgs.lib.toLower name}-web" \
+      --class="${name}" \
+      --name="${name}" \
+      --app="${url}" \
       --no-first-run \
       --no-default-browser-check \
       --disable-background-timer-throttling \
@@ -14,21 +14,31 @@ let
       --disable-backgrounding-occluded-windows \
       --password-store=basic
   '';
+
+  # Define web apps here
+  webApps = [
+    { name = "Discord"; url = "https://discord.com/app"; icon = "discord"; categories = [ "Network" "InstantMessaging" ]; }
+  ];
+
+  # Generate packages and desktop entries
+  webAppPackages = map (app: makeWebApp app.name app.url app.icon app.categories) webApps;
+  webAppDesktopEntries = builtins.listToAttrs (map (app: {
+    name = pkgs.lib.toLower app.name;
+    value = {
+      name = app.name;
+      comment = "${app.name} Web App";
+      exec = "${makeWebApp app.name app.url app.icon app.categories}/bin/${pkgs.lib.toLower app.name}";
+      icon = app.icon;
+      categories = app.categories;
+      startupNotify = true;
+    };
+  }) webApps);
 in
 {
   home.packages = with pkgs; [
     firefox
     chromium
-    discord-web
-  ];
+  ] ++ webAppPackages;
 
-  # Create desktop entry for Discord web wrapper
-  xdg.desktopEntries.discord = {
-    name = "Discord";
-    comment = "Discord Web App";
-    exec = "${discord-web}/bin/discord";
-    icon = "discord";
-    categories = [ "Network" "InstantMessaging" ];
-    startupNotify = true;
-  };
+  xdg.desktopEntries = webAppDesktopEntries;
 }
