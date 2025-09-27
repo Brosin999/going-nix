@@ -226,7 +226,7 @@ tooltip label {
 
 /* Hardware */
 #cpu {
-  color: rgb(181, 232, 83);
+  color: rgb(203, 240, 165);
   border-radius: 10px 0px 0px 10px;
   padding-left: 8px;
   padding-right: 6px;
@@ -234,7 +234,7 @@ tooltip label {
 }
 
 #memory {
-  color: rgb(255, 184, 108);
+  color: rgb(250, 208, 165);
   border-radius: 0px 10px 10px 0px;
   padding-left: 8px;
   padding-right: 8px;
@@ -252,7 +252,7 @@ tooltip label {
 
 /* Network */
 #network {
-  color: rgb(181, 232, 83);
+  color: rgb(178, 220, 239);
   border-radius: 6px;
   padding-left: 8px;
   padding-right: 8px;
@@ -295,7 +295,7 @@ tooltip label {
 
 /* Others */
 #temperature {
-  color: rgb(245, 194, 231);
+  color: rgb(240, 198, 198);
   border-radius: 6px;
   padding-left: 8px;
   padding-right: 8px;
