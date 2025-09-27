@@ -47,6 +47,8 @@
     # Audio
     alsa-utils       # Audio utilities
     pamixer          # Pulseaudio command line mixer
+    easyeffects      # Modern audio effects and mixer
+    # helvum         # Graph-based PipeWire patchbay (interesting for future)
     networkmanagerapplet  # Network GUI
     
     # Cursor themes
