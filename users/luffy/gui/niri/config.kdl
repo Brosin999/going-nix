@@ -21,7 +21,7 @@ output "eDP-1" {
 }
 
 layout {
-    gaps 4
+    gaps 2
 
     center-focused-column "never"
 
@@ -34,7 +34,7 @@ layout {
     default-column-width { proportion 0.5; }
 
     focus-ring {
-        width 2
+        width 1
         active-color "#89b4fa"
         inactive-color "#45475a"
     }
@@ -44,10 +44,10 @@ layout {
     }
 
     struts {
-        left 2
-        right 2
-        top 2
-        bottom 2
+        left 1
+        right 1
+        top 1
+        bottom 1
     }
 }
 
