@@ -11,13 +11,13 @@ layout {
 
     tab name="go-nix" cwd="~/going-nix" {
         pane split_direction="vertical" {
-            pane size="30%" {
+            pane {
                 command "claude"
             }
-            pane size="50%" {
-                command "yazi"
+            pane {
+                command "lazygit"
             }
-            pane size="20%" {
+            pane {
                 // Empty pane for general terminal work
             }
         }
