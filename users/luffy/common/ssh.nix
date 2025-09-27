@@ -1,21 +1,14 @@
 { ... }:
-let
-  shellAliases = {
-    restart-ssh = "killall ssh-agent; eval `ssh-agent`";
-  };
-in
 {
-  # Enable SSH agent service via home-manager
-  services.ssh-agent = {
-    enable = true;
-  };
+  # Disable all conflicting SSH agents
+  services.ssh-agent.enable = false;  # Disable home-manager's ssh-agent
 
-  # Disable GNOME keyring SSH agent to avoid conflicts  
+  # Use only GNOME keyring for SSH agent functionality
   services.gnome-keyring = {
     enable = true;
-    components = [ "pkcs11" "secrets" ]; # Exclude "ssh" component
+    components = [ "pkcs11" "secrets" "ssh" ];
   };
 
-  # Shell aliases
-  home.shellAliases = shellAliases;
+  # Remove problematic restart-ssh alias
+  home.shellAliases = {};
 }
