@@ -5,7 +5,7 @@
   "exclusive": true,
   "passthrough": false,
   "gtk-layer-shell": true,
-  "height": 25,
+  "height": 20,
   "modules-left": [
     "niri/workspaces"
   ],
@@ -14,9 +14,10 @@
   ],
   "modules-right": [
     "cpu",
+    "custom/temperature",
     "memory",
+    "custom/gpu",
     "network",
-    "temperature",
     "tray",
     "battery",
     "backlight",
@@ -44,8 +45,8 @@
     "spacing": 10
   },
   "clock": {
-    "format": " {:%R   %d/%m}",
-    "tooltip-format": " {:%R   %d/%m}",
+    "format": "{:%R   %d/%m}",
+    "tooltip-format": "{:%R   %d/%m}",
     "today-format": "<span color='#ff6699'><b><u>{}</u></b></span>",
     "calendar-weeks-pos": "right",
     "format-calendar": "<span color='#ecc94b'><b>{}</b></span>",
@@ -143,10 +144,16 @@
     "tooltip-format": "{ifname} via {gwaddr}",
     "max-length": 15
   },
-  "temperature": {
-    "thermal-zone": 1,
-    "format": " {temperatureC}°C",
-    "critical-threshold": 80,
-    "format-critical": " {temperatureC}°C"
+  "custom/gpu": {
+    "exec": "if command -v nvidia-smi >/dev/null; then nvidia-smi --query-gpu=utilization.gpu,memory.used,memory.total,temperature.gpu --format=csv,noheader,nounits | awk -F', ' '{printf \"🎮 %s%% %dMB %d°C\", $1, $2, $4}'; elif command -v radeontop >/dev/null; then echo '🎮 AMD GPU'; else echo '🎮 No GPU'; fi",
+    "format": "{}",
+    "interval": 5,
+    "tooltip": false
+  },
+  "custom/temperature": {
+    "exec": "cat /sys/class/hwmon/hwmon2/temp1_input | awk '{printf \"🌡️ %.0f°C\", $1/1000}'",
+    "format": "{}",
+    "interval": 5,
+    "tooltip": false
   }
 }

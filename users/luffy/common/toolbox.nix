@@ -44,6 +44,12 @@ in
 	# disk mgmnt
 	duf # Disk Usage / Free Utility. (df)
 	du-dust # Disk Usage (du)
+
+	# system monitoring
+	btop # modern system monitor (top/htop replacement)
+	glances # cross-platform system monitoring with web interface
+	nload # network load monitoring with real-time traffic visualization
+	procs # modern ps replacement with colorful output
   
   # Files
   yazi # terminal file manager
