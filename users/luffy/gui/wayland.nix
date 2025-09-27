@@ -36,8 +36,7 @@
     # Notification daemon
     mako             # Lightweight notification daemon
     
-    # Status bar
-    waybar           # Highly customizable status bar
+    # Status bar managed by home-manager programs.waybar
     
     # File manager
     nautilus         # GNOME file manager
@@ -47,6 +46,7 @@
     
     # Audio
     alsa-utils       # Audio utilities
+    pamixer          # Pulseaudio command line mixer
     networkmanagerapplet  # Network GUI
     
     # Cursor themes
@@ -67,6 +67,16 @@
         default-timeout = 5000;
       };
     };
+  };
+
+  # Waybar configuration
+  programs.waybar = {
+    enable = true;
+    systemd.enable = true;
+    settings = {
+      mainBar = (builtins.fromJSON (builtins.readFile ./waybar/config.jsonc));
+    };
+    style = builtins.readFile ./waybar/style.css;
   };
 
   # Cursor theme configuration

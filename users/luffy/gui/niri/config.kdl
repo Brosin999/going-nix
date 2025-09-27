@@ -51,7 +51,6 @@ layout {
     }
 }
 
-spawn-at-startup "waybar"
 
 prefer-no-csd
 
