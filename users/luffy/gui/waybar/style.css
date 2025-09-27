@@ -51,7 +51,7 @@
   background: rgba(30, 30, 46, 0.9);
   color: #cdd6f4;
   font-family: "Maple Mono NF CN", monospace;
-  font-size: 12pt;
+  font-size: 10pt;
   font-weight: bold;
   border: none;
 }
@@ -66,6 +66,9 @@
 #custom-updater,
 #custom-cycle_wall,
 #custom-keybindhint,
+#custom-gpu,
+#custom-temperature,
+#disk,
 #memory,
 #mode,
 #network,
@@ -78,10 +81,10 @@
 #workspaces {
   background: rgba(30, 30, 46, 0.9);
   border: 1px solid rgba(137, 180, 250, 0.3);
-  padding: 2px 8px;
-  margin: 4px 2px;
+  padding: 1px 4px;
+  margin: 2px 1px;
   border-radius: 8px;
-  min-height: 18px;
+  min-height: 12px;
 }
 
 /* Each module that should blink */
@@ -133,9 +136,9 @@
   background: rgba(49, 50, 68, 0.8);
   border: 1px solid rgba(137, 180, 250, 0.2);
   border-radius: 6px;
-  padding: 2px 6px;
+  padding: 1px 3px;
   margin: 2px;
-  min-height: 14px;
+  min-height: 10px;
   font-size: 10pt;
 }
 
@@ -173,8 +176,8 @@ tooltip label {
   background: rgba(40, 42, 54, 0.8);
   border: 1px solid rgba(68, 71, 90, 0.8);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 6px;
+  padding-left: 4px;
+  padding-right: 3px;
   margin-left: 10px;
   font-size: 16px;
 }
@@ -189,8 +192,8 @@ tooltip label {
   background: rgba(40, 42, 54, 0.8);
   border: 1px solid rgba(68, 71, 90, 0.8);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 6px;
+  padding-left: 4px;
+  padding-right: 3px;
   margin-left: 10px;
 }
 
@@ -199,8 +202,8 @@ tooltip label {
   background: rgba(40, 42, 54, 0.8);
   border: 1px solid rgba(68, 71, 90, 0.8);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 6px;
+  padding-left: 4px;
+  padding-right: 3px;
   margin-left: 10px;
 }
 
@@ -209,8 +212,8 @@ tooltip label {
   background: rgba(40, 42, 54, 0.8);
   border: 1px solid rgba(68, 71, 90, 0.8);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 6px;
+  padding-left: 4px;
+  padding-right: 3px;
   margin-left: 10px;
 }
 
@@ -219,8 +222,8 @@ tooltip label {
   background: rgba(40, 42, 54, 0.8);
   border: 1px solid rgba(68, 71, 90, 0.8);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 6px;
+  padding-left: 4px;
+  padding-right: 3px;
   margin-left: 10px;
 }
 
@@ -228,16 +231,16 @@ tooltip label {
 #cpu {
   color: rgb(203, 240, 165);
   border-radius: 10px 0px 0px 10px;
-  padding-left: 8px;
-  padding-right: 6px;
+  padding-left: 4px;
+  padding-right: 3px;
   margin-left: 10px;
 }
 
 #memory {
   color: rgb(250, 208, 165);
   border-radius: 0px 10px 10px 0px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
   margin-right: 10px;
 }
 
@@ -246,24 +249,24 @@ tooltip label {
   border-radius: 6px;
   margin-left: 0px;
   margin-right: 10px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 /* Network */
 #network {
   color: rgb(178, 220, 239);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 /* Battery */
 #battery {
   color: rgb(181, 232, 83);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 #battery.warning {
@@ -282,23 +285,23 @@ tooltip label {
 #pulseaudio {
   color: rgb(245, 224, 220);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 #pulseaudio.microphone {
   color: rgb(142, 215, 215);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 /* Others */
 #temperature {
   color: rgb(240, 198, 198);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 #temperature.critical {
@@ -307,13 +310,37 @@ tooltip label {
 
 #tray {
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 #backlight {
   color: rgb(248, 189, 150);
   border-radius: 6px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* GPU */
+#custom-gpu {
+  color: rgb(198, 160, 246);
+  border-radius: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* Custom Temperature */
+#custom-temperature {
+  color: rgb(240, 198, 198);
+  border-radius: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* Disk */
+#disk {
+  color: rgb(166, 227, 161);
+  border-radius: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
