@@ -12,6 +12,11 @@
     extraGroups = [ "wheel" "networkmanager" ];
   };
 
+  users.users.by = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" ];
+  };
+
   networking.hostName = "luffy";
   
   # Add your host-specific configuration here

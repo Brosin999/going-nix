@@ -45,6 +45,18 @@
           inherit inputs;
         };
       };
+
+      by = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        modules = [
+          ./users/by
+          inputs.catppuccin.homeModules.catppuccin
+        ];
+        extraSpecialArgs = {
+          pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages."x86_64-linux";
+          inherit inputs;
+        };
+      };
     };
   };
 }
