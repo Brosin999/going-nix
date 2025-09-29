@@ -15,6 +15,7 @@
   users.users.by = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
+    initialHashedPassword = "$y$j9T$v5gsLt.9MHUYYcLEzA/Rd/$aYWKCBKXHfgWXTV5Glhm7GZIR9z.J82MwvpGbJCY3x1";
   };
 
   networking.hostName = "luffy";
