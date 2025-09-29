@@ -7,6 +7,11 @@
   programs.niri.enable = true;
   programs.niri.package = pkgs.niri;
 
+  # Provide system-wide terminal for new users before home-manager is applied
+  environment.systemPackages = with pkgs; [
+    alacritty  # Default terminal available system-wide
+  ];
+
   # Desktop portals for screen sharing
   xdg.portal = {
     enable = true;
