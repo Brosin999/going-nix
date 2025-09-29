@@ -157,7 +157,7 @@ binds {
     Mod+C { center-column; }
     Mod+V { toggle-window-floating; }
 
-    Mod+B { spawn "/home/luffy/going-nix/scripts/toggle-waybar.sh"; }
+    Mod+B { spawn "~/going-nix/scripts/toggle-waybar.sh"; }
 
     Mod+Minus { set-column-width "-10%"; }
     Mod+Equal { set-column-width "+10%"; }
