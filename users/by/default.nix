@@ -12,6 +12,6 @@
   imports = [
     ../shared/common
     ../shared/gui
-    ./git.nix
+    ./stoken.nix
   ];
 }
