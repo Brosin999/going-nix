@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     inputs.catppuccin.nixosModules.catppuccin
     "${inputs.self}/modules/desktop"
+    "${inputs.self}/modules/docker.nix"
   ];
 
   users.users.luffy = {
