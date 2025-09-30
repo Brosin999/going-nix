@@ -53,6 +53,9 @@
     
     # Cursor themes
     bibata-cursors   # Modern, clean cursor theme
+
+    # Screen sharing portal
+    xdg-desktop-portal-wlr  # wlroots portal for screen sharing
   ];
 
   # Configure related services
@@ -79,6 +82,13 @@
       mainBar = (builtins.fromJSON (builtins.readFile ./waybar/config.jsonc));
     };
     style = builtins.readFile ./waybar/style.css;
+  };
+
+  # Desktop portal configuration for screen sharing
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+    config.common.default = "wlr";
   };
 
   # Cursor theme configuration
