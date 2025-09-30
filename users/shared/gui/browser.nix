@@ -18,6 +18,8 @@ let
   # Define web apps here
   webApps = [
     { name = "Discord"; url = "https://discord.com/app"; icon = "discord"; categories = [ "Network" "InstantMessaging" ]; }
+    { name = "Teams"; url = "https://teams.microsoft.com.mcas.ms/v2"; icon = "teams"; categories = [ "InstantMessaging" ]; }
+    { name = "Outlook"; url = "https://outlook.office.com.mcas.ms/mail/"; icon = "teams"; categories = [ "InstantMessaging"]; }
   ];
 
   # Generate packages and desktop entries
