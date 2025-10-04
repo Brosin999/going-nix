@@ -6,7 +6,7 @@
     "MOZ_ENABLE_WAYLAND" = "1"; # for firefox to run on wayland
     "MOZ_WEBRENDER" = "1";
     # enable native Wayland support for most Electron apps
-    "ELECTRON_OZONE_PLATFORM_HINT" = "auto";
+    "ELECTRON_OZONE_PLATFORM_HINT" = "wayland";
     # misc
     "_JAVA_AWT_WM_NONREPARENTING" = "1";
     "QT_WAYLAND_DISABLE_WINDOWDECORATION" = "1";
