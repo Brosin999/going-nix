@@ -67,4 +67,30 @@
     # Use NVIDIA DRM backend for GBM
     GBM_BACKEND = "nvidia-drm";
   };
+
+  # Fix high VRAM usage for niri
+  # Source: https://github.com/YaLTeR/niri/wiki/Nvidia
+  # This limits the free buffer pool to reduce VRAM usage from ~1GB to ~100MB
+  environment.etc."nvidia/nvidia-application-profiles-rc.d/niri.json".text = builtins.toJSON {
+    profiles = [
+      {
+        name = "niri";
+        settings = [
+          {
+            key = "GLVidHeapReuseRatio";
+            value = 0;
+          }
+        ];
+      }
+    ];
+    rules = [
+      {
+        pattern = {
+          feature = "procname";
+          matches = "niri";
+        };
+        profile = "niri";
+      }
+    ];
+  };
 }
