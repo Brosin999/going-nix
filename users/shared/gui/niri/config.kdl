@@ -156,6 +156,7 @@ binds {
     Mod+Shift+F { fullscreen-window; }
     Mod+C { center-column; }
     Mod+V { toggle-window-floating; }
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
 
     Mod+B { spawn "~/going-nix/scripts/toggle-waybar.sh"; }
 
