@@ -43,7 +43,7 @@ in
 	
 	# disk mgmnt
 	duf # Disk Usage / Free Utility. (df)
-	du-dust # Disk Usage (du)
+	dust # Disk Usage (du)
 
 	# system monitoring
 	btop # modern system monitor (top/htop replacement)
@@ -59,6 +59,10 @@ in
 	nix-index # index nix store paths
 	nix-melt # tui flake.lock
 	nix-tree # tue nix dep tree
+  direnv
+  
+  # productivity
+  taskwarrior3
   ];
 
 
