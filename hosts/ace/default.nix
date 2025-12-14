@@ -1,4 +1,10 @@
-{ config, pkgs, pkgs-unstable, inputs, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -9,11 +15,14 @@
 
   users.users.luffy = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
   };
 
   networking.hostName = "ace";
-  
+
   # Add your host-specific configuration here
   system.stateVersion = "25.11";
 }
