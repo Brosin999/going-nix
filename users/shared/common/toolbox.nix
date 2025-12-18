@@ -1,9 +1,9 @@
 { pkgs, ... }:
 let
-    shellAliases = {
-#	l = "eza -l";
-#	la = "eza -la";
-    };
+  shellAliases = {
+    #	l = "eza -l";
+    #	la = "eza -la";
+  };
 in
 {
 
@@ -11,60 +11,58 @@ in
   programs.bash.enable = true;
   programs.bash.shellAliases = shellAliases;
 
-
   home.packages = with pkgs; [
-	# important
-	cowsay
-	
-	# crypto
-	gnupg
-	
-	# cli tools
-	fzf # fuzzy search files
-	fd # find file by name (find)
-        # search for files by its content, replacement of grep
-        (ripgrep.override { withPCRE2 = true; })
-	psmisc # provides killall command
-	lazygit # terminal ui for git	
-	
-	sad # batch file edit
-	yq-go # jq for {yaml, json, ini, xml}
-	just # command runner (like make)
-	hyperfine # benchmark commands
-	claude-code # we'll see...
+    # important
+    cowsay
 
-	# networking
-	gping # ping with tui graph
-	doggo # dns client
+    # crypto
+    gnupg
 
-	# visualization
-	graphviz # dot graph visualization
-	pastel # command-line tool to work with colors
-	
-	# disk mgmnt
-	duf # Disk Usage / Free Utility. (df)
-	dust # Disk Usage (du)
+    # cli tools
+    fzf # fuzzy search files
+    fd # find file by name (find)
+    # search for files by its content, replacement of grep
+    (ripgrep.override { withPCRE2 = true; })
+    psmisc # provides killall command
+    lazygit # terminal ui for git
 
-	# system monitoring
-	btop # modern system monitor (top/htop replacement)
-	glances # cross-platform system monitoring with web interface
-	nload # network load monitoring with real-time traffic visualization
-	procs # modern ps replacement with colorful output
-  
-  # Files
-  yazi # terminal file manager
+    sad # batch file edit
+    yq-go # jq for {yaml, json, ini, xml}
+    just # command runner (like make)
+    hyperfine # benchmark commands
 
-	# nix
-	nix-output-monitor # `nom` - nix with better logs
-	nix-index # index nix store paths
-	nix-melt # tui flake.lock
-	nix-tree # tue nix dep tree
-  direnv
-  
-  # productivity
-  taskwarrior3
+    # networking
+    gping # ping with tui graph
+    doggo # dns client
+
+    # visualization
+    graphviz # dot graph visualization
+    pastel # command-line tool to work with colors
+
+    # disk mgmnt
+    duf # Disk Usage / Free Utility. (df)
+    dust # Disk Usage (du)
+
+    # system monitoring
+    btop # modern system monitor (top/htop replacement)
+    glances # cross-platform system monitoring with web interface
+    nload # network load monitoring with real-time traffic visualization
+    procs # modern ps replacement with colorful output
+
+    # Files
+    yazi # terminal file manager
+    pv # better than dd, shows progress of file transfer
+
+    # nix
+    nix-output-monitor # `nom` - nix with better logs
+    nix-index # index nix store paths
+    nix-melt # tui flake.lock
+    nix-tree # tue nix dep tree
+    direnv
+
+    # productivity
+    taskwarrior3
   ];
-
 
   # A modern replacement for ‘ls’
   # useful in bash/zsh prompt, not in nushell.
