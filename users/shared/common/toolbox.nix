@@ -3,6 +3,7 @@ let
   shellAliases = {
     #	l = "eza -l";
     #	la = "eza -la";
+    "windows" = "sudo efibootmgr --bootnext 0000; sudo reboot";
   };
 in
 {
@@ -34,6 +35,7 @@ in
     # networking
     gping # ping with tui graph
     doggo # dns client
+    wireshark
 
     # visualization
     graphviz # dot graph visualization
@@ -59,6 +61,9 @@ in
     nix-melt # tui flake.lock
     nix-tree # tue nix dep tree
     direnv
+
+    # misc
+    efibootmgr
 
     # productivity
     taskwarrior3
