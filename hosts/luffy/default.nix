@@ -12,6 +12,7 @@
     inputs.catppuccin.nixosModules.catppuccin
     "${inputs.self}/modules/desktop"
     "${inputs.self}/modules/docker.nix"
+    "${inputs.self}/modules/base/ai-nvidia.nix"
   ];
 
   users.users.luffy = {
@@ -19,6 +20,7 @@
     extraGroups = [
       "wheel"
       "networkmanager"
+      "ollama"
     ];
   };
 
@@ -27,6 +29,7 @@
     extraGroups = [
       "wheel"
       "networkmanager"
+      "ollama"
     ];
     initialHashedPassword = "$y$j9T$v5gsLt.9MHUYYcLEzA/Rd/$aYWKCBKXHfgWXTV5Glhm7GZIR9z.J82MwvpGbJCY3x1";
   };
