@@ -1,19 +1,24 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # Bootloader kernel parameters for NVIDIA
   boot.kernelParams = [
-    "nvidia-drm.fbdev=1"  # Enable kernel mode setting for Wayland
+    "nvidia-drm.fbdev=1" # Enable kernel mode setting for Wayland
   ];
 
   # Enable OpenGL/graphics hardware acceleration
   hardware.graphics = {
     enable = true;
-    enable32Bit = true;  # Support for 32-bit applications
+    enable32Bit = true; # Support for 32-bit applications
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     # Modesetting is required for Wayland compositors
@@ -21,7 +26,7 @@
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
     # of just the bare essentials.
     powerManagement.enable = true;
 
@@ -32,7 +37,7 @@
 
     # Use the NVidia open source kernel module (recommended for RTX 30 series)
     # Support is available for Turing and later architectures including RTX 3080
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
     open = true;
 
     # Enable the Nvidia settings menu, accessible via `nvidia-settings`
@@ -47,10 +52,10 @@
 
   # Add useful NVIDIA-related packages
   environment.systemPackages = with pkgs; [
-    config.hardware.nvidia.package.settings  # NVIDIA control panel
-    nvtopPackages.nvidia  # GPU monitoring tool
-    cudatoolkit       # CUDA development toolkit (optional)
-    nvidia-vaapi-driver  # VAAPI driver for hardware video acceleration
+    config.hardware.nvidia.package.settings # NVIDIA control panel
+    nvtopPackages.nvidia # GPU monitoring tool
+    cudatoolkit # CUDA development toolkit (optional)
+    nvidia-vaapi-driver # VAAPI driver for hardware video acceleration
   ];
 
   # Ensure proper GPU access for users
@@ -66,6 +71,7 @@
     NVD_BACKEND = "direct";
     # Use NVIDIA DRM backend for GBM
     GBM_BACKEND = "nvidia-drm";
+    OLLAMA_LLM_LIBRARY = "cuda";
   };
 
   # Fix high VRAM usage for niri
