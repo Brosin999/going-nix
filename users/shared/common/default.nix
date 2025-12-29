@@ -6,5 +6,6 @@
     ./theme.nix
     ./toolbox.nix
     ./tui
+    ./llm.nix
   ];
 }

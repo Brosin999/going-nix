@@ -12,7 +12,6 @@
     inputs.catppuccin.nixosModules.catppuccin
     "${inputs.self}/modules/desktop"
     "${inputs.self}/modules/docker.nix"
-    "${inputs.self}/modules/base/ai-nvidia.nix"
   ];
 
   users.users.luffy = {
