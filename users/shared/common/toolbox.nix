@@ -35,7 +35,6 @@ in
     # networking
     gping # ping with tui graph
     doggo # dns client
-    wireshark
 
     # visualization
     graphviz # dot graph visualization
@@ -57,16 +56,16 @@ in
 
     # nix
     nix-output-monitor # `nom` - nix with better logs
-    nix-index # index nix store paths
+    # nix-index provided by nix-index-database module (includes comma for on-demand packages)
     nix-melt # tui flake.lock
-    nix-tree # tue nix dep tree
-    direnv
+    nix-tree # tui nix dep tree
 
     # misc
     efibootmgr
 
     # productivity
     taskwarrior3
+    claude-code
   ];
 
   # A modern replacement for ‘ls’
@@ -125,5 +124,12 @@ in
     enableBashIntegration = true;
     enableZshIntegration = true;
     enableNushellIntegration = true;
+  };
+
+  # direnv - automatically load project environments
+  # Use `use flake` in .envrc to load project devShells
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true; # Better caching for nix environments
   };
 }

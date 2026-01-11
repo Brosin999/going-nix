@@ -1,6 +1,5 @@
-{ ... }:
+{ inputs, ... }:
 {
-  # home manager info
   home.username = "by";
   home.homeDirectory = "/home/by";
   home.stateVersion = "25.11";
@@ -10,8 +9,8 @@
   nixpkgs.config.allowUnfree = true;
 
   imports = [
-    ../shared/common
-    ../shared/gui
+    "${inputs.self}/users/shared/common"
+    "${inputs.self}/users/shared/gui"
     ./stoken.nix
   ];
 }

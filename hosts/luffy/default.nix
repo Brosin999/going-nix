@@ -6,6 +6,14 @@
   ...
 }:
 
+let
+  defaultGroups = [
+    "wheel"
+    "networkmanager"
+    "ollama"
+    "wireshark"
+  ];
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -16,20 +24,12 @@
 
   users.users.luffy = {
     isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "ollama"
-    ];
+    extraGroups = defaultGroups;
   };
 
   users.users.by = {
     isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "ollama"
-    ];
+    extraGroups = defaultGroups;
     initialHashedPassword = "$y$j9T$v5gsLt.9MHUYYcLEzA/Rd/$aYWKCBKXHfgWXTV5Glhm7GZIR9z.J82MwvpGbJCY3x1";
   };
 

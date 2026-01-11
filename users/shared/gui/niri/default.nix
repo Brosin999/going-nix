@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   imports = [
-    ../wayland.nix
-    ../alacritty.nix
+    "${inputs.self}/users/shared/gui/wayland.nix"
+    "${inputs.self}/users/shared/gui/alacritty.nix"
   ];
 
   # Use system-provided niri instead of home-manager module
