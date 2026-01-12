@@ -10,6 +10,7 @@
   # Provide system-wide terminal for new users before home-manager is applied
   environment.systemPackages = with pkgs; [
     alacritty  # Default terminal available system-wide
+    xwayland-satellite  # XWayland for X11 apps (VirtualBox, etc.)
   ];
 
   # Desktop portals for screen sharing

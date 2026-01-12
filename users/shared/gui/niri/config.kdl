@@ -1,3 +1,10 @@
+// XWayland support via xwayland-satellite (required for X11 apps like VirtualBox)
+spawn-at-startup "xwayland-satellite"
+
+environment {
+    DISPLAY ":0"
+}
+
 input {
     keyboard {
         xkb {

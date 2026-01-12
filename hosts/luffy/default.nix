@@ -12,6 +12,7 @@ let
     "networkmanager"
     "ollama"
     "wireshark"
+    "video"
   ];
 in
 {
@@ -34,6 +35,13 @@ in
   };
 
   networking.hostName = "luffy";
+
+  # NVIDIA GPU configuration
+  hardware.nvidia-custom.enable = true;
+
+  # VirtualBox host support
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "luffy" "by" ];
 
   programs.nix-ld = {
     enable = true;

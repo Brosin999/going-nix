@@ -133,3 +133,7 @@ nix develop .#dev  # Full dev environment with all tools
 nix build --dry-run .#homeConfigurations.by.activationPackage  # See what will build
 nix-tree ./result  # Interactive dependency browser
 ```
+
+## System debugging
+
+The system you are running on is reflective of this repo. When debugging issues on this machine, this repository should be where fixes are implemented and investigated unless told otherwise.

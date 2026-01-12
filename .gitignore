@@ -2,6 +2,9 @@
 result
 result-*
 
+# Ignore VM disk images
+*.qcow2
+
 # Ignore automatically generated direnv output
 .direnv
 .claude

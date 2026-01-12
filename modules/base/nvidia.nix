@@ -6,6 +6,9 @@
 }:
 
 {
+  options.hardware.nvidia-custom.enable = lib.mkEnableOption "Custom NVIDIA configuration";
+
+  config = lib.mkIf config.hardware.nvidia-custom.enable {
   # Bootloader kernel parameters for NVIDIA
   boot.kernelParams = [
     "nvidia-drm.fbdev=1" # Enable kernel mode setting for Wayland
@@ -58,8 +61,6 @@
     nvidia-vaapi-driver # VAAPI driver for hardware video acceleration
   ];
 
-  # Ensure proper GPU access for users
-  users.users.luffy.extraGroups = [ "video" ];
 
   # Essential environment variables for NVIDIA + Hyprland
   environment.sessionVariables = {
@@ -101,5 +102,6 @@
         profile = "niri";
       }
     ];
+  };
   };
 }
