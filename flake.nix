@@ -39,6 +39,14 @@
           };
           modules = [ ./hosts/ace ];
         };
+
+        pandora = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs pkgs-unstable;
+          };
+          modules = [ ./hosts/pandora ];
+        };
       };
 
       homeConfigurations = {
@@ -59,6 +67,19 @@
           inherit pkgs;
           modules = [
             ./users/by
+            inputs.catppuccin.homeModules.catppuccin
+            inputs.nix-index-database.homeModules.nix-index
+            { programs.nix-index-database.comma.enable = true; }
+          ];
+          extraSpecialArgs = {
+            inherit inputs pkgs-unstable;
+          };
+        };
+
+        zoro = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./users/zoro
             inputs.catppuccin.homeModules.catppuccin
             inputs.nix-index-database.homeModules.nix-index
             { programs.nix-index-database.comma.enable = true; }
