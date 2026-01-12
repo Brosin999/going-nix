@@ -72,6 +72,9 @@
     # Use NVIDIA DRM backend for GBM
     GBM_BACKEND = "nvidia-drm";
     OLLAMA_LLM_LIBRARY = "cuda";
+    # Force GTK4 to use GL renderer instead of Vulkan
+    # Fixes VK_ERROR_OUT_OF_DATE_KHR crashes in apps like GNOME Snapshot
+    GSK_RENDERER = "gl";
   };
 
   # Fix high VRAM usage for niri
