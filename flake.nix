@@ -14,6 +14,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, catppuccin, niri, ... }:
@@ -29,7 +33,10 @@
           specialArgs = {
             inherit inputs pkgs-unstable;
           };
-          modules = [ ./hosts/luffy ];
+          modules = [
+            ./hosts/luffy
+            ./modules/iso-formats.nix
+          ];
         };
 
         ace = nixpkgs.lib.nixosSystem {
@@ -37,7 +44,10 @@
           specialArgs = {
             inherit inputs pkgs-unstable;
           };
-          modules = [ ./hosts/ace ];
+          modules = [
+            ./hosts/ace
+            ./modules/iso-formats.nix
+          ];
         };
 
         pandora = nixpkgs.lib.nixosSystem {
@@ -45,7 +55,18 @@
           specialArgs = {
             inherit inputs pkgs-unstable;
           };
-          modules = [ ./hosts/pandora ];
+          modules = [
+            ./hosts/pandora
+            ./modules/iso-formats.nix
+          ];
+        };
+
+        installer = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs pkgs-unstable;
+          };
+          modules = [ ./imaging/installer ];
         };
       };
 

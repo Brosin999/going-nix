@@ -137,3 +137,45 @@ nix-tree ./result  # Interactive dependency browser
 ## System debugging
 
 The system you are running on is reflective of this repo. When debugging issues on this machine, this repository should be where fixes are implemented and investigated unless told otherwise.
+
+---
+
+## ISO Generation Infrastructure
+
+ISO generation for installer and per-host builds using nixos-generators.
+
+### Components
+
+1. **Generic Installer ISO** (`imaging/installer/default.nix`)
+   - Bundles flake source at `/etc/going-nix` (works with private repos)
+   - Tailscale auto-connect with auth key passed at build time
+   - SSH over Tailscale interface only (secure)
+   - SSH key-based auth using `users/luffy/id_ed25519.pub`
+   - User `luffy` with passwordless sudo
+   - Auto-login on console for local access
+
+2. **Per-Host ISO Support** (`modules/iso-formats.nix`)
+   - All hosts can build their own ISOs via `just iso <host>`
+   - Uses nixos-generators `all-formats` module
+
+### Usage
+
+```bash
+# Build installer ISO (requires Tailscale auth key)
+just iso-installer tskey-auth-xxxxx
+
+# Build ISO for specific host
+just iso pandora
+
+# Test installer in VM
+just test-installer
+
+# Build VM without running
+just build-installer-vm
+```
+
+### Notes
+
+- `isoImage.isoName` is deprecated - use `image.fileName` instead
+- Files must be `git add`ed for nix to see them in flake
+- VM uses QEMU (VirtualBox had compatibility issues)

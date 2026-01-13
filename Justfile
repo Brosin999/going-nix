@@ -91,6 +91,31 @@ hm-verbose:
 eval-stats:
 	NIX_SHOW_STATS=1 nix build .#nixosConfigurations.$(hostname).config.system.build.toplevel --dry-run 2>&1 | head -100
 
+# === ISO Generation ===
+
+# Build generic installer ISO with Tailscale (requires auth key)
+# Usage: just iso-installer tskey-auth-xxxxx
+[group('iso')]
+iso-installer tsAuthKey:
+	TAILSCALE_AUTH_KEY={{tsAuthKey}} nix build .#nixosConfigurations.installer.config.formats.iso -o result-installer-iso --impure
+
+# Build ISO for specific host (usage: just iso pandora)
+[group('iso')]
+iso host:
+	nix build .#nixosConfigurations.{{host}}.config.formats.iso -o result-{{host}}-iso
+
+# Test installer in VM (for quick iteration without Tailscale)
+# Usage: just test-installer
+[group('iso')]
+test-installer:
+	nix build .#nixosConfigurations.installer.config.formats.vm -o result-installer-vm --impure
+	./result-installer-vm/bin/run-*-vm
+
+# Build installer VM without running (useful to check it builds)
+[group('iso')]
+build-installer-vm:
+	nix build .#nixosConfigurations.installer.config.formats.vm -o result-installer-vm --impure
+
 
 
 
