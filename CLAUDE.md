@@ -142,7 +142,7 @@ The system you are running on is reflective of this repo. When debugging issues 
 
 ## ISO Generation Infrastructure
 
-ISO generation for installer and per-host builds using nixos-generators.
+ISO generation for installer and per-host builds using nixos-generators and disko.
 
 ### Components
 
@@ -154,28 +154,81 @@ ISO generation for installer and per-host builds using nixos-generators.
    - User `luffy` with passwordless sudo
    - Auto-login on console for local access
 
-2. **Per-Host ISO Support** (`modules/iso-formats.nix`)
+2. **Zero-Touch Host Installer** (`imaging/pandora-installer/default.nix`)
+   - Fully automated installation for specific hosts
+   - Auto-detects target disk (NVMe preferred)
+   - 30-second countdown before wiping (safety abort window)
+   - Uses disko for declarative disk partitioning
+   - Pre-bundles installation closure for offline install
+   - Auto-reboots into installed system
+
+3. **Per-Host ISO Support** (`modules/iso-formats.nix`)
    - All hosts can build their own ISOs via `just iso <host>`
    - Uses nixos-generators `all-formats` module
+
+4. **Disko Disk Configurations** (`hosts/<host>/disko.nix`)
+   - Declarative disk partitioning per host
+   - Currently configured: pandora (GPT + EFI + ext4)
 
 ### Usage
 
 ```bash
-# Build installer ISO (requires Tailscale auth key)
+# Build generic installer ISO (requires Tailscale auth key)
 just iso-installer tskey-auth-xxxxx
 
-# Build ISO for specific host
+# Build zero-touch pandora installer (auto-installs on boot)
+just iso-pandora-install tskey-auth-xxxxx
+
+# Test pandora installer in VM
+just test-pandora-installer
+
+# Build ISO for specific host (live environment, not auto-install)
 just iso pandora
 
-# Test installer in VM
+# Test generic installer in VM
 just test-installer
 
 # Build VM without running
 just build-installer-vm
 ```
 
+### Zero-Touch Installation Workflow
+
+1. Build the installer ISO:
+   ```bash
+   just iso-pandora-install tskey-auth-xxxxx
+   ```
+
+2. Flash to USB:
+   ```bash
+   sudo dd if=result-pandora-installer-iso/iso/*.iso of=/dev/sdX bs=4M status=progress
+   ```
+
+3. Boot target machine from USB
+
+4. Installation is fully automatic:
+   - Tailscale connects with auth key
+   - 30-second countdown displayed on console
+   - Disk is partitioned and formatted via disko
+   - NixOS installed from bundled closure
+   - System reboots into final installation
+
+5. SSH into the new system via Tailscale:
+   ```bash
+   ssh luffy@<pandora-tailscale-ip>
+   ```
+
+### Adding Zero-Touch Install for New Hosts
+
+1. Create `hosts/<host>/disko.nix` with disk configuration
+2. Import disko.nix in `hosts/<host>/default.nix`
+3. Create `imaging/<host>-installer/default.nix` (copy from pandora-installer)
+4. Add flake configuration in `flake.nix`
+5. Add Justfile commands
+
 ### Notes
 
 - `isoImage.isoName` is deprecated - use `image.fileName` instead
 - Files must be `git add`ed for nix to see them in flake
 - VM uses QEMU (VirtualBox had compatibility issues)
+- Disko configurations use `lib.mkDefault` for disk device so it can be overridden

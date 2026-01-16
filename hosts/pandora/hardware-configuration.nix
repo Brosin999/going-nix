@@ -13,16 +13,8 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/18499434-5460-47f5-84ce-21e07da90c28";
-      fsType = "ext4";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/AEEE-852D";
-      fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
-    };
+  # Filesystems managed by disko (see disko.nix)
+  # The UUID-based mounts were auto-generated but disko handles partitioning declaratively
 
   swapDevices = [ ];
 

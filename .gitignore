@@ -9,3 +9,5 @@ result-*
 .direnv
 .claude
 
+# ignore logs
+*.log

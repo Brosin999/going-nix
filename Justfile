@@ -104,17 +104,38 @@ iso-installer tsAuthKey:
 iso host:
 	nix build .#nixosConfigurations.{{host}}.config.formats.iso -o result-{{host}}-iso
 
-# Test installer in VM (for quick iteration without Tailscale)
-# Usage: just test-installer
+# Test any installer in VM (cleans up old VM disk first)
+# Usage: just test-vm installer OR just test-vm pandora-installer
 [group('iso')]
-test-installer:
-	nix build .#nixosConfigurations.installer.config.formats.vm -o result-installer-vm --impure
-	./result-installer-vm/bin/run-*-vm
+test-vm config:
+	rm -f nixos.qcow2 *.img 2>/dev/null || true
+	nix build .#nixosConfigurations.{{config}}.config.formats.vm -o result-{{config}}-vm --impure
+	./result-{{config}}-vm/run-nixos-vm
 
-# Build installer VM without running (useful to check it builds)
+# Build installer ISO with Tailscale + optional notification
+# Usage: just iso-install pandora-installer tskey-auth-xxxxx https://ntfy.sh/my-topic
 [group('iso')]
-build-installer-vm:
-	nix build .#nixosConfigurations.installer.config.formats.vm -o result-installer-vm --impure
+iso-install config tsAuthKey notifyUrl="":
+	TAILSCALE_AUTH_KEY={{tsAuthKey}} NOTIFY_URL={{notifyUrl}} nix build .#nixosConfigurations.{{config}}.config.formats.iso -o result-{{config}}-iso --impure
+
+# Check closure size for a host (helps estimate disk requirements)
+# Usage: just closure-size pandora
+[group('profile')]
+closure-size host:
+	@echo "Checking closure size for {{host}}..."
+	@nix path-info -Sh .#nixosConfigurations.{{host}}.config.system.build.toplevel
+
+# Test VM with serial console logged to file (headless, for debugging)
+# Output is written to vm-output.log. Use: tail -f vm-output.log
+# Usage: just test-vm-log pandora-installer
+[group('iso')]
+test-vm-log config:
+	rm -f nixos.qcow2 *.img vm-output.log 2>/dev/null || true
+	nix build .#nixosConfigurations.{{config}}.config.formats.vm -o result-{{config}}-vm --impure
+	@echo "Starting VM in headless mode. Serial output -> vm-output.log"
+	@echo "Use 'tail -f vm-output.log' in another terminal to watch progress"
+	@echo "Press Ctrl+C to stop the VM"
+	stdbuf -oL ./result-{{config}}-vm/run-nixos-vm -nographic 2>&1 | tee vm-output.log
 
 
 

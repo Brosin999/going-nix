@@ -18,9 +18,13 @@
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, catppuccin, niri, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, catppuccin, niri, disko, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -67,6 +71,14 @@
             inherit inputs pkgs-unstable;
           };
           modules = [ ./imaging/installer ];
+        };
+
+        pandora-installer = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs pkgs-unstable;
+          };
+          modules = [ ./imaging/pandora-installer ];
         };
       };
 

@@ -9,6 +9,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./disko.nix
     inputs.catppuccin.nixosModules.catppuccin
     "${inputs.self}/modules/desktop"
   ];
