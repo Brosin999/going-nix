@@ -22,6 +22,10 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-anywhere = {
+      url = "github:nix-community/nixos-anywhere";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, catppuccin, niri, disko, ... }:
@@ -134,6 +138,7 @@
             deadnix
             statix
             typos
+            inputs.nixos-anywhere.packages.${system}.default
           ];
         };
 

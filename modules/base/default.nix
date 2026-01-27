@@ -8,5 +8,6 @@
 		./i18n.nix
 		./boot.nix
 		./networking.nix
+		./tailscale.nix
 	];
 }

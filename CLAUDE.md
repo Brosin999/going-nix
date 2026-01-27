@@ -61,6 +61,16 @@ These coding principles are mandatory:
 - Favor deterministic, testable behavior.
 - Keep tests simple and focused on verifying observable behavior.
 
+## Tool preferences
+
+1. Justfile for reusable commands and for documentation
+
+2. Python for complicated/integrated scripting
+- Prefer uv 
+
+3. Rust for systems programming
+
+4. Nix devshell for environment configuration
 
 ## Repository Overview
 
