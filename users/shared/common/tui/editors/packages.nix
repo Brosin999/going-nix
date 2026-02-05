@@ -93,9 +93,14 @@ let
   ];
 
   # Essential packages always installed (minimal set for editor support)
-  essentialPackages = with pkgs; [
-    fzf
-    (ripgrep.override { withPCRE2 = true; })
+  essentialPackages = [
+    pkgs.fzf
+    (pkgs.ripgrep.override { withPCRE2 = true; })
+
+    # Core development tools (always needed)
+    pkgs.uv # Python package manager
+    pkgs-unstable.cargo # Rust package manager (from unstable for latest)
+    pkgs-unstable.rustc # Rust compiler (required by cargo)
   ];
 in
 {
