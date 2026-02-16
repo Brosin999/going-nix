@@ -9,7 +9,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    inputs.catppuccin.nixosModules.catppuccin
     "${inputs.self}/modules/desktop"
   ];
 
