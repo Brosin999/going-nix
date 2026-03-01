@@ -28,7 +28,16 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, catppuccin, niri, disko, ... }:
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      catppuccin,
+      niri,
+      disko,
+      ...
+    }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -134,89 +143,14 @@
         default = pkgs.mkShell {
           packages = with pkgs; [
             just
-            nixfmt-rfc-style
-            deadnix
+            nil
+            nixfmt
+            nixd
             statix
+            deadnix
             typos
-            inputs.nixos-anywhere.packages.${system}.default
+            git
           ];
-        };
-
-        # Full development environment - use with `nix develop .#dev`
-        # or reference from other projects: `nix develop github:by/going-nix#dev`
-        dev = pkgs.mkShell {
-          packages = with pkgs;
-            [
-              # Nix tooling
-              nil
-              nixd
-              statix
-              deadnix
-              nixfmt-rfc-style
-
-              # Python
-              pipx
-              uv
-              pyright
-              (python313.withPackages (
-                ps: with ps; [
-                  ruff
-                  black
-                  jupyter
-                  ipython
-                  pandas
-                  requests
-                  pyyaml
-                ]
-              ))
-
-              # Rust (from unstable)
-              pkgs-unstable.rustc
-              pkgs-unstable.rust-analyzer
-              pkgs-unstable.cargo
-              pkgs-unstable.rustfmt
-              pkgs-unstable.clippy
-
-              # Web development
-              nodePackages.nodejs
-              nodePackages.typescript
-              nodePackages.typescript-language-server
-              nodePackages.vscode-langservers-extracted
-              nodePackages."@tailwindcss/language-server"
-              emmet-ls
-
-              # Config languages
-              terraform-ls
-              jsonnet
-              jsonnet-language-server
-              taplo
-              nodePackages.yaml-language-server
-              actionlint
-
-              # Docker
-              hadolint
-              dockerfile-language-server
-
-              # Markdown/docs
-              marksman
-              glow
-              pandoc
-              pkgs-unstable.hugo
-
-              # Shell/scripting
-              nodePackages.bash-language-server
-              shellcheck
-              shfmt
-              lua-language-server
-              stylua
-
-              # Misc
-              nodePackages.prettier
-              proselint
-              gdu
-              fzf
-              (ripgrep.override { withPCRE2 = true; })
-            ];
         };
       };
     };
