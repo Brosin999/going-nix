@@ -4,11 +4,6 @@
   pkgs-unstable,
   ...
 }:
-###############################################################################
-#
-#  AstroNvim's configuration and all its dependencies(lsp, formatter, etc.)
-#
-#e#############################################################################
 let
   shellAliases = {
     v = "nvim";
@@ -16,7 +11,6 @@ let
   };
 in
 {
-  xdg.configFile."nvim".source = ./nvim;
 
   # vim dep
   home.packages = with pkgs; [
@@ -30,9 +24,14 @@ in
 
   programs.neovim = {
     enable = true;
+    package = pkgs-unstable.neovim-unwrapped;
 
     # defaultEditor = true; # set EDITOR at system-wide level
     viAlias = true;
     vimAlias = true;
+
   };
+
+  xdg.configFile."nvim".source = ./nvim;
+
 }
