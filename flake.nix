@@ -8,7 +8,6 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    catppuccin.url = "github:catppuccin/nix";
     niri.url = "github:sodiboo/niri-flake";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -33,7 +32,6 @@
       self,
       nixpkgs,
       home-manager,
-      catppuccin,
       niri,
       disko,
       ...
@@ -100,7 +98,6 @@
           inherit pkgs;
           modules = [
             ./users/luffy
-            inputs.catppuccin.homeModules.catppuccin
             inputs.nix-index-database.homeModules.nix-index
             { programs.nix-index-database.comma.enable = true; }
           ];
@@ -125,7 +122,6 @@
           inherit pkgs;
           modules = [
             ./users/zoro
-            inputs.catppuccin.homeModules.catppuccin
             inputs.nix-index-database.homeModules.nix-index
             { programs.nix-index-database.comma.enable = true; }
           ];

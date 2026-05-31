@@ -1,23 +1,5 @@
 {
   "nodes": {
-    "catppuccin": {
-      "inputs": {
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1778406663,
-        "narHash": "sha256-jGOtlDJAe0MFoOErIxSFs3TQZ7WaCpUt1qnjJ0HhLfw=",
-        "owner": "catppuccin",
-        "repo": "nix",
-        "rev": "a0fa2f1b901473d8aefb2e3026396e3562c1782c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "catppuccin",
-        "repo": "nix",
-        "type": "github"
-      }
-    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -107,7 +89,7 @@
       "inputs": {
         "niri-stable": "niri-stable",
         "niri-unstable": "niri-unstable",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
         "xwayland-satellite-stable": "xwayland-satellite-stable",
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
@@ -354,22 +336,6 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1777954456,
-        "narHash": "sha256-hGdgeU2Nk87RAuZyYjyDjFL6LK7dAZN5RE9+hrDTkDU=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "549bd84d6279f9852cae6225e372cc67fb91a4c1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
         "lastModified": 1778003029,
         "narHash": "sha256-q/nkKLDtHIyLjZpKhWk3cSK5IYsFqtMd6UtXF3ddjgA=",
         "owner": "NixOS",
@@ -386,14 +352,13 @@
     },
     "root": {
       "inputs": {
-        "catppuccin": "catppuccin",
         "disko": "disko",
         "home-manager": "home-manager",
         "niri": "niri",
         "nix-index-database": "nix-index-database",
         "nixos-anywhere": "nixos-anywhere",
         "nixos-generators": "nixos-generators",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable"
       }
     },
