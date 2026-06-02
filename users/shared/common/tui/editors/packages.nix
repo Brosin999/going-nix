@@ -49,7 +49,7 @@ let
     pipx # Install and Run Python Applications in Isolated Environments
     uv # python project package manager
     pyright # python language server
-    (python313.withPackages (
+    (python314.withPackages (
       ps: with ps; [
         ruff
         black # python formatter
@@ -104,7 +104,5 @@ let
   ];
 in
 {
-  home.packages =
-    essentialPackages
-    ++ lib.optionals config.custom.profiles.development devPackages;
+  home.packages = essentialPackages ++ lib.optionals config.custom.profiles.development devPackages;
 }

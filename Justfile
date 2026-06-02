@@ -19,9 +19,13 @@ up:
 check:
 	nix flake check
 
+# Garbage collect nix store (default: delete older than 7d, use 0d to delete all)
 [group('nix')]
-gc:
-	nix store gc
+gc age="7d":
+	sudo nix-collect-garbage --delete-older-than {{age}}
+	nix-collect-garbage --delete-older-than {{age}}
+	@echo "Done. Current store size:"
+	@duf /nix/store
 
 [group('nix')]
 fmt:

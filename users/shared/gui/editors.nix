@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 {
   home.packages = with pkgs; [
-    vscode
+    pkgs-unstable.vscode
     obsidian
     libreoffice # CSV and office documents
   ];
