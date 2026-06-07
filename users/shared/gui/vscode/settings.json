@@ -1,0 +1,69 @@
+{
+    "workbench.sideBar.location": "right",
+    "workbench.editor.showTabs": "none",
+    "window.titleBarStyle": "custom",
+    "[dockercompose]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "advanced",
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "workbench.editor.empty.hint": "hidden",
+    "editor.minimap.enabled": false,
+    "workbench.activityBar.location": "hidden",
+    "remote.autoForwardPortsSource": "hybrid",
+    "redhat.telemetry.enabled": false,
+    "editor.experimental.asyncTokenizationVerification": true,
+    "[nix]": {
+        "editor.defaultFormatter": "jnoortheen.nix-ide",
+        "editor.formatOnSave": true
+    },
+    "nix.enableLanguageServer": true,
+    "nix.serverPath": "nil",
+    "nix.formatterPath": "nixfmt",
+    "git.autofetch": false,
+    "terminal.integrated.stickyScroll.enabled": false,
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+    "git.suggestSmartCommit": false,
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "keep",
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultColorDecorators": "never",
+        "editor.quickSuggestions": {
+            "strings": true,
+            "other": true,
+            "comments": false
+        },
+        "editor.defaultFormatter": "kennylong.kubernetes-yaml-formatter"
+    },
+    "yaml.schemas": {},
+    "keyboard.dispatch": "keyCode",
+    "yaml.schemaStore.enable": false,
+    "autoDocstring.docstringFormat": "sphinx",
+    "workbench.colorTheme": "astronautz",
+    "direnv.restart.automatic": true,
+    "terminal.integrated.smoothScrolling": false,
+    "terminal.integrated.localEchoEnabled": "off",
+    "terminal.integrated.gpuAcceleration": "off",
+    "terminal.integrated.shellIntegration.enabled": false,
+    "vim.easymotion": true,
+    "vim.leader": ";",
+    "vim.useSystemClipboard": true,
+    "ty.interpreter": [
+        "${workspaceFolder}/.venv/bin/python"
+    ],
+    "editor.hover.delay": 100,
+    "editor.hover.sticky": true,
+    "chat.commandCenter.enabled": false,
+    "workbench.navigationControl.enabled": false,
+    "workbench.layoutControl.enabled": false,
+    "window.commandCenter": false,
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "rust-analyzer.server.path": "/home/by/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rust-analyzer",
+    "git.openRepositoryInParentFolders": "never"
+}
