@@ -242,3 +242,33 @@ just build-installer-vm
 - Files must be `git add`ed for nix to see them in flake
 - VM uses QEMU (VirtualBox had compatibility issues)
 - Disko configurations use `lib.mkDefault` for disk device so it can be overridden
+
+---
+
+## Sandboxed Claude Code Agent
+
+A hardened Podman container for running Claude Code autonomously with two security layers. See `imaging/claude-agent/README.md` for full details.
+
+### Quick Reference
+
+```bash
+just claude-agent-build          # Build the container image
+just claude-agent-test           # Verify nested sandbox works
+just claude-agent-run ~/project  # Run interactively
+just claude-agent-shell          # Debug shell into container
+just claude-agent-secret sk-ant-...  # Store API key for Quadlet
+just claude-agent-install        # Install systemd Quadlet service
+```
+
+### Architecture
+
+- **Layer 1 (container):** Rootless Podman, all caps dropped, read-only root, GPU via CDI
+- **Layer 2 (srt):** Network allowlist + filesystem rules via bubblewrap inside the container
+- **`enableWeakerNestedSandbox: true`** is required in `srt-settings.json` for bubblewrap to work inside rootless Podman (nested user namespace limitation)
+- Container uid must match host uid — use `--build-arg DEV_UID=$(id -u)` when building
+- GPU works in the container but not through srt's bubblewrap (fine for Claude Code itself)
+
+### Container Infrastructure
+
+- **Podman** replaces Docker (`modules/podman.nix`) — rootless by default, `dockerCompat = true` for CLI alias
+- **NVIDIA Container Toolkit** configured in `modules/base/nvidia.nix` — shares GPU via CDI

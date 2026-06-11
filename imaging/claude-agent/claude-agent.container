@@ -1,0 +1,46 @@
+# claude-agent.container -- Podman Quadlet (systemd-native) for the agent.
+#
+# A Quadlet is a simplified container definition that Podman's systemd
+# generator converts into a proper systemd unit. Instead of writing raw
+# systemd service files, you describe the container here and systemd
+# manages start/stop/restart/logs like any other service.
+#
+# Place this at:  ~/.config/containers/systemd/claude-agent.container
+# Then: systemctl --user daemon-reload && systemctl --user start claude-agent
+
+[Unit]
+Description=Autonomous Claude Code agent (GPU, sandboxed)
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=localhost/claude-agent:latest
+ContainerName=claude-agent
+
+# --- GPU: shared with the host via CDI (NOT passthrough) ---
+AddDevice=nvidia.com/gpu=all
+
+# --- Layer 1 hardening: the OS boundary ---
+NoNewPrivileges=true
+DropCapability=ALL
+ReadOnly=true                       # root fs immutable; only volumes/tmpfs writable
+SecurityLabelDisable=true           # no-op on NixOS (no SELinux); needed if you enable it
+UserNS=keep-id                      # container user maps to your uid -> no shifted
+                                    #   ownership on files written into the project
+PodmanArgs=--group-add keep-groups  # forward video/render groups for rootless GPU
+
+# --- Writable surfaces (everything else stays read-only) ---
+Tmpfs=/tmp:rw,nosuid,nodev,size=2g  # scratch + CUDA JIT cache
+Volume=claude-home:/home/dev        # persistent agent state (.claude, caches, settings)
+Volume=%h/project:/home/dev/project:rw   # the actual work directory
+
+# --- Secret (preferred over an inline key) ---
+# Create it once:  printf '%s' "sk-ant-..." | podman secret create anthropic-api-key -
+Secret=anthropic-api-key,type=env,target=ANTHROPIC_API_KEY
+
+[Service]
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

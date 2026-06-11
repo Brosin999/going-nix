@@ -141,6 +141,72 @@ test-vm-log config:
 	@echo "Press Ctrl+C to stop the VM"
 	stdbuf -oL ./result-{{config}}-vm/run-nixos-vm -nographic 2>&1 | tee vm-output.log
 
+# === Claude Agent Container ===
 
+# Build the sandboxed Claude Code agent container image
+[group('claude-agent')]
+claude-agent-build:
+	cd imaging/claude-agent && podman build --build-arg DEV_UID=$(id -u) -t claude-agent:latest .
 
+# Full rebuild: clear cached layers, volume, and rebuild from scratch
+[group('claude-agent')]
+claude-agent-rebuild:
+	-podman volume rm claude-home
+	cd imaging/claude-agent && podman build --no-cache --build-arg DEV_UID=$(id -u) -t claude-agent:latest .
+	@echo "Rebuilt from scratch. claude-home volume cleared (re-auth needed)."
 
+# Test that srt's nested bubblewrap sandbox works inside the container
+[group('claude-agent')]
+claude-agent-test:
+	@mkdir -p /tmp/claude-agent-test
+	podman run --rm --entrypoint /bin/bash --device nvidia.com/gpu=all \
+		--security-opt=label=disable --group-add keep-groups --userns=keep-id \
+		-v /tmp/claude-agent-test:/home/dev/project:rw \
+		-v $(pwd)/imaging/claude-agent/srt-settings.json:/home/dev/.srt-settings.json:ro \
+		localhost/claude-agent:latest \
+		-c 'srt --settings ~/.srt-settings.json echo ok'
+	@rm -rf /tmp/claude-agent-test
+
+# Run Claude Code interactively in the sandboxed container
+# Usage: just claude-agent-run ~/my-project
+[group('claude-agent')]
+claude-agent-run project_path:
+	podman run --rm -it --log-level=debug --device nvidia.com/gpu=all \
+		--security-opt=label=disable --group-add keep-groups --userns=keep-id \
+		--cap-drop=ALL --security-opt=no-new-privileges \
+		-e ANTHROPIC_API_KEY \
+		-v claude-home:/home/dev \
+		-v $(pwd)/imaging/claude-agent/srt-settings.json:/home/dev/.srt-settings.json:ro \
+		-v {{project_path}}:/home/dev/project:rw \
+		localhost/claude-agent:latest
+
+# Shell into the container for debugging
+[group('claude-agent')]
+claude-agent-shell project_path="/tmp":
+	podman run --rm -it --entrypoint /bin/bash --device nvidia.com/gpu=all \
+		--security-opt=label=disable --group-add keep-groups --userns=keep-id \
+		-v claude-home:/home/dev \
+		-v $(pwd)/imaging/claude-agent/srt-settings.json:/home/dev/.srt-settings.json:ro \
+		-v {{project_path}}:/home/dev/project:rw \
+		localhost/claude-agent:latest
+
+# Remove the claude-home volume (clears cached state, auth tokens, nix store)
+[group('claude-agent')]
+claude-agent-clean:
+	-podman volume rm claude-home
+	@echo "claude-home volume removed. Next run will re-initialize."
+
+# Store API key as a podman secret (for Quadlet service use)
+# Usage: just claude-agent-secret sk-ant-...
+[group('claude-agent')]
+claude-agent-secret key:
+	printf '%s' "{{key}}" | podman secret create anthropic-api-key -
+
+# Install the Quadlet systemd service for autonomous operation
+[group('claude-agent')]
+claude-agent-install:
+	mkdir -p ~/.config/containers/systemd
+	cp imaging/claude-agent/claude-agent.container ~/.config/containers/systemd/
+	systemctl --user daemon-reload
+	@echo "Installed. Start with: systemctl --user start claude-agent"
+	@echo "Logs: journalctl --user -u claude-agent -f"

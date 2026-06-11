@@ -19,7 +19,7 @@ in
   imports = [
     ./hardware-configuration.nix
     "${inputs.self}/modules/desktop"
-    "${inputs.self}/modules/docker.nix"
+    "${inputs.self}/modules/podman.nix"
   ];
 
   users.users.luffy = {

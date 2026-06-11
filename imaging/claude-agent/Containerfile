@@ -1,0 +1,75 @@
+# Containerfile
+#
+# The agent image: CUDA runtime + Node + Claude Code + sandbox-runtime (srt)
+# + Nix package manager (for devshells/direnv support). Build with:
+#
+#     podman build --build-arg DEV_UID=$(id -u) -t claude-agent:latest .
+#
+# NOTE ON VERSION COUPLING: the CUDA toolkit version below must be supported
+# by your HOST NVIDIA driver (newer driver runs older CUDA, not the reverse).
+# Bump the base tag to match your card/driver if needed.
+
+FROM nvidia/cuda:12.4.0-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Base tools + Node 20 (Ubuntu's apt nodejs is too old for Claude Code).
+# srt needs bubblewrap + socat; ripgrep is used by Claude Code's tooling.
+# xz-utils is needed by the Nix installer.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl ca-certificates git ripgrep bubblewrap socat xz-utils \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g @anthropic-ai/claude-code @anthropic-ai/sandbox-runtime
+
+# Dedicated unprivileged user inside the container.
+# No hardcoded uid — pass --build-arg DEV_UID=$(id -u) at build time
+# so the container user matches your host uid. This makes volume-mounted
+# files owned by you on the host (important for --userns=keep-id).
+ARG DEV_UID=1000
+RUN useradd -m -u ${DEV_UID} -s /bin/bash dev
+
+# --- Nix package manager (single-user install as dev user) ---
+# Single-user mode: no daemon, no extra users. Nix store lives at /nix.
+# We create /nix owned by dev, then install as dev user directly.
+RUN mkdir -p /nix && chown dev:dev /nix
+USER dev
+ENV USER=dev
+ENV HOME=/home/dev
+RUN curl -L https://nixos.org/nix/install | sh -s -- --no-daemon
+
+# Enable flakes and the nix command
+RUN mkdir -p /home/dev/.config/nix \
+    && echo 'experimental-features = nix-command flakes' > /home/dev/.config/nix/nix.conf
+
+# Add nix to PATH for subsequent RUN steps and runtime.
+# The profile script needs HOME and USER (set above via ENV).
+ENV PATH="/home/dev/.nix-profile/bin:${PATH}"
+
+# Source nix in .bashrc so interactive shells get the full environment
+RUN echo '. /home/dev/.nix-profile/etc/profile.d/nix.sh' >> /home/dev/.bashrc
+
+# Install direnv + nix-direnv for automatic devshell activation
+RUN nix profile install nixpkgs#direnv nixpkgs#nix-direnv \
+    && echo 'eval "$(direnv hook bash)"' >> /home/dev/.bashrc \
+    && mkdir -p /home/dev/.config/direnv \
+    && echo 'source $HOME/.nix-profile/share/nix-direnv/direnvrc' > /home/dev/.config/direnv/direnvrc
+
+# Switch back to root for remaining setup
+USER root
+
+# --- THE CUDA JIT-CACHE FIX ---
+# With a read-only root filesystem, CUDA can't write its default JIT compile
+# cache (~/.nv/ComputeCache). Point it at the writable tmpfs we mount at /tmp.
+ENV CUDA_CACHE_PATH=/tmp/cuda-cache
+
+# Bake in the sandbox allowlist and the launch wrapper.
+COPY --chown=dev:dev srt-settings.json /home/dev/.srt-settings.json
+COPY --chown=dev:dev run-claude.sh     /home/dev/run-claude.sh
+RUN chmod +x /home/dev/run-claude.sh
+
+USER dev
+WORKDIR /home/dev/project
+ENTRYPOINT ["/home/dev/run-claude.sh"]

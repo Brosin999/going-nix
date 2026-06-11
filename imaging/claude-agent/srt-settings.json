@@ -1,0 +1,57 @@
+{
+  "enableWeakerNestedSandbox": true,
+  "network": {
+    "allowedDomains": [
+      "api.anthropic.com",
+      "*.anthropic.com",
+      "*.claude.ai",
+      "sentry.io",
+      "*.sentry.io",
+
+      "registry.npmjs.org",
+      "*.npmjs.org",
+
+      "pypi.org",
+      "*.pythonhosted.org",
+      "files.pythonhosted.org",
+
+      "github.com",
+      "*.github.com",
+      "objects.githubusercontent.com",
+      "raw.githubusercontent.com",
+
+      "cache.nixos.org",
+      "*.cache.nixos.org",
+      "channels.nixos.org",
+      "releases.nixos.org",
+
+      "crates.io",
+      "*.crates.io",
+      "static.crates.io",
+
+      "*.cloudfront.net",
+      "*.amazonaws.com"
+    ],
+    "deniedDomains": [],
+    "allowLocalBinding": true
+  },
+  "filesystem": {
+    "denyRead": [
+      "~/.ssh",
+      "~/.aws",
+      "~/.config/gcloud"
+    ],
+    "allowRead": [],
+    "allowWrite": [
+      ".",
+      "/home/dev/project",
+      "/tmp",
+      "~/.claude",
+      "~/.claude.json"
+    ],
+    "denyWrite": [
+      ".env",
+      "**/.env"
+    ]
+  }
+}
