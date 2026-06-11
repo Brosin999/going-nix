@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 let
   shellAliases = {
     #	l = "eza -l";
@@ -65,7 +65,7 @@ in
 
     # productivity
     taskwarrior3
-    claude-code
+    pkgs-unstable.claude-code
   ];
 
   # A modern replacement for ‘ls’
