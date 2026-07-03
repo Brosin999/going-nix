@@ -255,10 +255,52 @@ A hardened Podman container for running Claude Code autonomously with two securi
 just claude-agent-build          # Build the container image
 just claude-agent-test           # Verify nested sandbox works
 just claude-agent-run ~/project  # Run interactively
+USE_SRT=0 just claude-agent-run ~/project  # Run with srt (Layer 2) disabled
 just claude-agent-shell          # Debug shell into container
 just claude-agent-secret sk-ant-...  # Store API key for Quadlet
 just claude-agent-install        # Install systemd Quadlet service
 ```
+
+### Updating Claude Code in the container
+
+Claude Code is installed via the **official native installer**
+(`curl -fsSL https://claude.ai/install.sh | bash`) as the `dev` user, landing in
+`~/.local/bin/claude` + `~/.local/share/claude`. Because that home dir is the
+persistent `claude-home` volume, Claude Code's **background auto-updater keeps it
+on the latest release across restarts** — no manual version bump needed. (srt is
+still installed via npm global, but srt doesn't self-update.)
+
+Earlier this was an npm global pinned via `ARG CLAUDE_VERSION`; that was dropped
+because the npm prefix (`/usr/lib/node_modules`) is root-owned while the agent
+runs unprivileged, so auto-update failed with "npm global folder isn't writable".
+
+Caveats for the native approach:
+- srt's `allowWrite` (in `srt-settings.json`) must include `~/.local/bin` and
+  `~/.local/share/claude`, or Layer 2 blocks the updater's writes.
+- The `claude-home` volume overmounts `/home/dev` and is only seeded from the
+  image on first use. After switching to the native image, run
+  `just claude-agent-clean` once so a fresh volume picks up the native install.
+- Independent of the host's `pkgs-unstable.claude-code`.
+
+### Authentication
+
+- **Interactive (`just claude-agent-run`)** uses **subscription login (OAuth)** —
+  no API key is forwarded (the recipe deliberately omits `-e ANTHROPIC_API_KEY`).
+  First run prints a login URL to open in your own browser; the token persists in
+  the `claude-home` volume.
+- **Quadlet service** uses an API key from a podman secret (`anthropic-api-key`)
+  for headless operation, since it can't do an interactive browser login.
+
+### Disabling srt (Layer 2)
+
+srt (Layer 2) is **currently disabled by default**: `run-claude.sh` defaults
+`USE_SRT` to `0`. Run with `USE_SRT=1 just claude-agent-run ...` to re-enable it
+per-run, or flip the default back to `1` in `run-claude.sh` to make srt standard
+again. The `claude-agent-run` recipe forwards the value via `-e USE_SRT`.
+
+With srt off, Layer 1 (the hardened rootless container) still isolates the host;
+what's lost is srt's network allowlist (the container then has unrestricted
+egress) and its in-mount filesystem rules.
 
 ### Architecture
 

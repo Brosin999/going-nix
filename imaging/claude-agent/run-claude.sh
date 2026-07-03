@@ -12,10 +12,11 @@ set -euo pipefail
 # CUDA writes its JIT compile cache here; ensure it exists on the tmpfs.
 mkdir -p "${CUDA_CACHE_PATH:-/tmp/cuda-cache}"
 
-# USE_SRT=0 bypasses the inner sandbox -- useful ONLY for debugging whether
-# srt's bubblewrap initializes inside the container (see README "nested seam").
-# Leave it at 1 for normal operation.
-if [ "${USE_SRT:-1}" = "1" ]; then
+# Layer 2 (srt) is currently DISABLED BY DEFAULT (USE_SRT defaults to 0).
+# Re-enable the inner sandbox per-run with USE_SRT=1, or flip this default back
+# to 1 to make srt the standard again. With srt off, Layer 1 (the hardened
+# rootless container) is the only boundary and network egress is unrestricted.
+if [ "${USE_SRT:-0}" = "1" ]; then
   exec srt --settings "$HOME/.srt-settings.json" \
     claude --dangerously-skip-permissions "$@"
 else

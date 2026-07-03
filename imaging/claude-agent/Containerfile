@@ -22,7 +22,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get install -y --no-install-recommends nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g @anthropic-ai/claude-code @anthropic-ai/sandbox-runtime
+# sandbox-runtime (srt) is installed globally via npm. Claude Code itself is NOT
+# installed here -- it goes in via the official native installer as the `dev`
+# user further down (see "native Claude Code install"). Rationale: a system-wide
+# npm global lives in /usr/lib/node_modules (root-owned) while the agent runs
+# unprivileged, so Claude Code's background auto-updater can't write there and
+# nags "npm global folder isn't writable". The native install lives in the dev
+# user's home (a persistent volume) and self-updates to the latest release.
+RUN npm install -g @anthropic-ai/sandbox-runtime
 
 # Dedicated unprivileged user inside the container.
 # No hardcoded uid — pass --build-arg DEV_UID=$(id -u) at build time
@@ -44,9 +51,9 @@ RUN curl -L https://nixos.org/nix/install | sh -s -- --no-daemon
 RUN mkdir -p /home/dev/.config/nix \
     && echo 'experimental-features = nix-command flakes' > /home/dev/.config/nix/nix.conf
 
-# Add nix to PATH for subsequent RUN steps and runtime.
-# The profile script needs HOME and USER (set above via ENV).
-ENV PATH="/home/dev/.nix-profile/bin:${PATH}"
+# Add nix and the native Claude Code install dir to PATH for subsequent RUN
+# steps and runtime. The profile script needs HOME and USER (set above via ENV).
+ENV PATH="/home/dev/.local/bin:/home/dev/.nix-profile/bin:${PATH}"
 
 # Source nix in .bashrc so interactive shells get the full environment
 RUN echo '. /home/dev/.nix-profile/etc/profile.d/nix.sh' >> /home/dev/.bashrc
@@ -56,6 +63,18 @@ RUN nix profile install nixpkgs#direnv nixpkgs#nix-direnv \
     && echo 'eval "$(direnv hook bash)"' >> /home/dev/.bashrc \
     && mkdir -p /home/dev/.config/direnv \
     && echo 'source $HOME/.nix-profile/share/nix-direnv/direnvrc' > /home/dev/.config/direnv/direnvrc
+
+# --- native Claude Code install ---
+# Official native installer -> ~/.local/bin/claude + ~/.local/share/claude.
+# Unlike an npm global, this lives entirely in the dev user's home, which the
+# run recipe backs with the persistent `claude-home` volume. The installer's
+# background auto-updater writes there (releases come from downloads.claude.ai),
+# so the container converges to the latest Claude Code release across restarts.
+# NOTE: the `claude-home` volume overmounts /home/dev at runtime; podman only
+# seeds it from the image on FIRST use (empty volume). After switching to this
+# image, run `just claude-agent-clean` once so a fresh volume picks up the
+# native install -- an existing volume keeps the stale npm-based layout.
+RUN curl -fsSL https://claude.ai/install.sh | bash
 
 # Switch back to root for remaining setup
 USER root

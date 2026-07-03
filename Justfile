@@ -143,6 +143,10 @@ test-vm-log config:
 
 # === Claude Agent Container ===
 
+# Claude Code is installed via the native installer (auto-updates to latest in
+# the persistent claude-home volume) -- no version to pin. After (re)building,
+# run `just claude-agent-clean` once if you have an old npm-based claude-home
+# volume, so a fresh volume picks up the native install.
 # Build the sandboxed Claude Code agent container image
 [group('claude-agent')]
 claude-agent-build:
@@ -167,14 +171,21 @@ claude-agent-test:
 		-c 'srt --settings ~/.srt-settings.json echo ok'
 	@rm -rf /tmp/claude-agent-test
 
-# Run Claude Code interactively in the sandboxed container
 # Usage: just claude-agent-run ~/my-project
+# Disable the inner srt sandbox (Layer 2) for unrestricted network + simpler
+# startup while getting going:  USE_SRT=0 just claude-agent-run ~/my-project
+# (Layer 1 — the hardened container — still isolates the host.)
+# Interactive use is subscription-login (OAuth), NOT an API key: no
+# ANTHROPIC_API_KEY is forwarded. On first run, Claude prints a login URL —
+# open it in your own browser and paste the code back. The token persists in
+# the claude-home volume, so you only log in once.
+# Run Claude Code interactively in the sandboxed container
 [group('claude-agent')]
 claude-agent-run project_path:
 	podman run --rm -it --log-level=debug --device nvidia.com/gpu=all \
 		--security-opt=label=disable --group-add keep-groups --userns=keep-id \
 		--cap-drop=ALL --security-opt=no-new-privileges \
-		-e ANTHROPIC_API_KEY \
+		-e USE_SRT \
 		-v claude-home:/home/dev \
 		-v $(pwd)/imaging/claude-agent/srt-settings.json:/home/dev/.srt-settings.json:ro \
 		-v {{project_path}}:/home/dev/project:rw \
@@ -191,9 +202,13 @@ claude-agent-shell project_path="/tmp":
 		localhost/claude-agent:latest
 
 # Remove the claude-home volume (clears cached state, auth tokens, nix store)
+# -f force-removes the volume even when exited/leftover containers still
+# reference it (it stops/removes those containers first, with a grace period).
+# Without -f, a plain `volume rm` fails with "volume is being used" and the
+# volume survives -- so this recipe would lie about having removed it.
 [group('claude-agent')]
 claude-agent-clean:
-	-podman volume rm claude-home
+	-podman volume rm -f claude-home
 	@echo "claude-home volume removed. Next run will re-initialize."
 
 # Store API key as a podman secret (for Quadlet service use)

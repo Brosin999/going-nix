@@ -47,7 +47,9 @@
       "/home/dev/project",
       "/tmp",
       "~/.claude",
-      "~/.claude.json"
+      "~/.claude.json",
+      "~/.local/bin",
+      "~/.local/share/claude"
     ],
     "denyWrite": [
       ".env",
