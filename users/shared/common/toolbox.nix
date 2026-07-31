@@ -65,7 +65,6 @@ in
 
     # productivity
     taskwarrior3
-    pkgs-unstable.claude-code
   ];
 
   # A modern replacement for ‘ls’
