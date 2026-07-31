@@ -8,7 +8,7 @@
 let
   # Development packages - only installed when custom.profiles.development = true
   # Otherwise, use project devShells with direnv for these tools
-  devPackages = with pkgs; [
+  devPackages = with pkgs-unstable; [
     # -*- Data & Configuration Languages -*-
     #-- nix
     nil # language server
@@ -98,7 +98,7 @@ let
     (pkgs.ripgrep.override { withPCRE2 = true; })
 
     # Core development tools (always needed)
-    pkgs.uv # Python package manager
+    pkgs-unstable.uv # Python package manager
     pkgs-unstable.cargo # Rust package manager (from unstable for latest)
     pkgs-unstable.rustc # Rust compiler (required by cargo)
   ];

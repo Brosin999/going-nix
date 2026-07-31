@@ -67,5 +67,6 @@
     "rust-analyzer.server.path": "/home/by/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rust-analyzer",
     "git.openRepositoryInParentFolders": "always",
     "workbench.colorTheme": "astronautz",
-    "rust-analyzer.cargo.features": "all"
+    "rust-analyzer.cargo.features": "all",
+    "dev.containers.mountWaylandSocket": false
 }
