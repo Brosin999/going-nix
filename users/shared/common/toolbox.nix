@@ -65,6 +65,7 @@ in
 
     # productivity
     taskwarrior3
+    pkgs-unstable.opencode
   ];
 
   # A modern replacement for ‘ls’
