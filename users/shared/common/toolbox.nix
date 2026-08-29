@@ -66,6 +66,7 @@ in
     # productivity
     taskwarrior3
     pkgs-unstable.opencode
+    pkgs-unstable.gemini-cli
   ];
 
   # A modern replacement for ‘ls’

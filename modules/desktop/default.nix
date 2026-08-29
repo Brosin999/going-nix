@@ -7,5 +7,6 @@
     ./gui-packages.nix
     ./niri.nix
     ./gaming.nix
+    ./vm.nix
   ];
 }
