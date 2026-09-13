@@ -19,6 +19,7 @@
       "wheel"
       "networkmanager"
     ];
+    initialHashedPassword = "$6$TT/n4NMUqmuyQ.GG$Zwv1ZiTeaZheiNAtxu.ybmjrfbKoI2CI/l/xZ7bL3S2uX.jIN4GFV8ZkJ2KIaIWfj5otYkoEFp7/ijnPFvK1v.";
   };
 
   networking.hostName = "ace";
