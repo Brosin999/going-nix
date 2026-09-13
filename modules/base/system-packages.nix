@@ -1,47 +1,51 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
-	# sys packages
+  # sys packages
 
-	# for security reasons, do not load neovim's user config
-  	# since EDITOR may be used to edit some critical files
-	environment.variables.EDITOR = "nvim --clean";
-	
-	environment.systemPackages = with pkgs; [
-		# core
-		tealdeer
-		fastfetch
-		neovim
-		just
-		nushell
-		git
-		git-lfs
-		gnugrep
+  # for security reasons, do not load neovim's user config
+  # since EDITOR may be used to edit some critical files
+  environment.variables.EDITOR = "nvim --clean";
 
-		# compression
-		zip
-		xz
-		zstd
+  environment.systemPackages =
+    with pkgs;
+    [
 
-		# networking
-		mtr # traceroute + ping
-		iperf3 # network benchmark + opt
-		dnsutils # dig + nslookup
-		wget
-		curl
-		nmap
-		ipcalc
-		socat
+      # core
+      tealdeer
+      fastfetch
+      neovim
+      just
+      nushell
+      git
+      git-lfs
+      gnugrep
 
-		# security
-		libargon2 # cool hashing
-		openssl
+      # compression
+      zip
+      xz
+      zstd
 
-		# misc
-		file # determine file type
-		findutils
-		which
-		tree
-		gnutar
-		rsync
-	];
-}			
+      # networking
+      mtr # traceroute + ping
+      iperf3 # network benchmark + opt
+      dnsutils # dig + nslookup
+      wget
+      curl
+      nmap
+      ipcalc
+      socat
+
+      # security
+      libargon2 # cool hashing
+      openssl
+
+      # misc
+      file # determine file type
+      findutils
+      which
+      tree
+      gnutar
+      rsync
+    ]
+    ++ [ inputs.home-manager.packages.${pkgs.system}.default ];
+}
