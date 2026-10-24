@@ -40,7 +40,10 @@ in
 
   # VirtualBox host support
   virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "luffy" "by" ];
+  users.extraGroups.vboxusers.members = [
+    "luffy"
+    "by"
+  ];
 
   programs.nix-ld = {
     enable = true;
@@ -48,7 +51,7 @@ in
       stdenv.cc.cc
     ];
   };
-
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # Add your host-specific configuration here
   system.stateVersion = "25.11";
 }
