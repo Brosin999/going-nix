@@ -22,6 +22,9 @@ in
     "${inputs.self}/modules/podman.nix"
   ];
 
+  # since we dont have tpm enabled
+  services.tailscale.extraDaemonFlags = [ "--encrypt-state=false" ];
+
   users.users.luffy = {
     isNormalUser = true;
     extraGroups = defaultGroups;
